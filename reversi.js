@@ -6,10 +6,10 @@ let playersTurn = document.getElementById('player');
 
 //Tile is simple what the tile box contain
 class tile { //=======================================================
-    constructor(Name,Fill,Color) {
-        this.name = Name;   //string. The name of tile
-        this.fill = Fill;   // T/F  if tile is occupied
-        this.color = Color; // string  White/Black which color tile
+    constructor(name,fill,color) {
+        this.name = name;   //string. The name of tile
+        this.fill = fill;   // T/F  if tile is occupied
+        this.color = color; // string  White/Black which color tile
         
     }
     addPiece(){
@@ -92,15 +92,18 @@ class gameSystem extends tile{  //=====================================
                     
                     if(this.boxItems[`${letNum}`].fill == false){
                         if(this.trnColor == 'black'){
-                            this.boxItems[`${letNum}`].cngColor("black");    //changes the background to black
-                            this.boxItems[`${letNum}`].addPiece();               //changes it the tile to True
+                            this.boxItems[`${letNum}`].cngColor("black");   //changes the background to black
+                            this.boxItems[`${letNum}`].addPiece();          //changes it the tile to True
+                            
                             this.chngTurn();                                //updates the color to white->black of vice versa                        
-                            this.altrpoints();
+                            this.getPieces(letNum,'black');
+                            this.altrpoints();                              //Updates the score
                         } else {
                             this.boxItems[`${letNum}`].cngColor("white")    //changes the background to black
-                            this.boxItems[`${letNum}`].addPiece()               //changes it the tile to T
-                            this.chngTurn(); 
-                            this.altrpoints(); 
+                            this.boxItems[`${letNum}`].addPiece()           //changes it the tile to T
+                            this.chngTurn();                                //updates the color to white->black of vice versa
+                           this.getPieces(letNum,'white');
+                            this.altrpoints();                              //updates the score
                         }          
                     } else {
                         alert("Tile is already contains a peice")
@@ -119,6 +122,57 @@ class gameSystem extends tile{  //=====================================
             playersTurn.innerHTML = "Black's Turn"
         }
     }
+    //=====================================================================
+    getPieces(point,color){ //point is the players
+        console.log(point);
+        
+        let letter = point.charAt(0);             //gets letter from point
+        let number = point.charAt(1);
+        
+        //Converting to create a 0 to 7 array
+        let letterValue;        
+        let numberValue;
+        for(let i = 0; i < rowL.length; i++)
+            if(letter == rowL[i])
+                letterValue = i;
+        for(let j = 0; j < columnN.length; j++)
+            if(number == columnN[j])
+                numberValue = j
+        console.log(`letter:${letterValue}  Number: ${numberValue}`)
+        this.isValidMove(letterValue,numberValue,color,point)
+        //find pieces around
+        
+        
+        //continue to search
+
+
+
+        
+    }
+
+    isValidMove(row,col,player,point){
+        let oponentColor = (player == 'white') ? 'black' : 'white';
+        let directions =[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0][1,1]]
+        for(let i =0; i < directions.length; i++){
+            let r = row + directions[i][0];     //gets the row value +/- 1 and at
+            let c = col + directions[i][1];     //gets the column value +/- 1 and at
+            let xy = rowL[r] + columnN[c];      //converts it back to row and column values IE'A1,etc.'
+            let flips=0;
+            while(r >= 0 && r < 8 && c >=0 && c < 8 && this.boxItems[`${xy}`].color == oponentColor){
+                r += directions[i][0];
+                c += directions[i][1];
+                if(this.isValidMove() == true){
+
+                }
+                
+
+            }
+            if(r >= 0 && r < 8 && c >=0 && c < 8 && this.boxItems[`${xy}`].color == player)
+            return true;
+        }
+        return//nothig was done
+    }
+    
     //Function(){
     //}   
 }
@@ -126,108 +180,8 @@ class gameSystem extends tile{  //=====================================
 let GAME = new gameSystem("black");
 GAME.strtGame();
 
-// ******==========********    OLD CODE    ********==========******
-
-
-// let row = ['A','B','C','D','E','F','G','H']
-// let column = ['1','2','3','4','5','6','7','8']
-
-// for(let i = 0; i < row.length; i++) {
-//     for(let j = 0; j < column.length; j++) {
-//         document.getElementById(row[i] + column[j]).addEventListener("click",() => {
-//             document.getElementById(row[i] + column[j]).style.background = "blue";
-//             let
-//         })
-//     }    
+// for(let i = 0; i < rowL.length; i++) {
+//     for(let j = 0; j < columnN.length; j++) {
+//         let letNum = rowL[i] + columnN[j];
+//     }
 // }
-
-// let turn = 'black';
-// let blk = 0;
-// let wht = 0;
-
-
-// class tileInfo {    //Start of class ********************* 
-//     constructor(Name,Tile){
-//         this.name = Name;   //String. Name of the square 
-//         this.tile = Tile;   //Bool. if tile is present
-        
-//     }
-//     logg() {        //console logs the infomation selected
-//         console.log(this.name)
-//         console.log(this.tile)
-//     }
-//     plyrTurn(color) { // Changes the text in the footer to reflect who's turn it is.
-//         if(color == 'black')
-//             playersTurn.innerHTML = 'Black'
-//         else
-//             playersTurn.innerHTML = 'White'    
-//     }
-//     cngAddBlkScore( ){
-//         blk++;
-//         console.log(blk)
-//         console.log(wht)
-//         blackScore.innerHTML = `Black: ${blk}`
-//     }
-//     cngAddWhtScore() {
-//         wht++;
-//         console.log(blk)
-//         console.log(wht)
-//         whiteScore.innerHTML = `White: ${wht}`
-//     }
-    // changeColor() {
-    //     let divName = document.getElementById(`${this.name}`);
-    //     divName.addEventListener("click", () =>{
-    //         if(this.tile == false){
-    //             if(turn == 'black'){
-    //                 divName.style.background = "black";
-    //                 turn = 'white'
-    //                 this.tile = true;
-    //                 this.plyrTurn(turn);
-    //                 this.cngAddBlkScore();
-    //             } else {
-    //                 divName.style.background = "white";
-    //                 turn = 'black'
-    //                 this.tile = true;
-    //                 this.plyrTurn(turn);
-    //                 this.cngAddWhtScore();
-                    
-    //             }          
-    //         } else {
-    //             console.log("Tile is already contains a peice")
-    //         }
-    //         //this.logg()
-    //     });  
-    // }   
-// }
-// //Creates the Array of the first row to test
-// /*let testArray = ['A1','A2','A3','A4','A5','A6','A7','A8']
-// for(let i = 0; i < testArray.length; i++){
-//     const Information = new tileInfo(testArray[i],false);//Constructor to class*****************
-//     Information.changeColor();
-// }*/
-
-
-//  let row = ['A','B','C','D','E','F','G','H']
-//  let column = ['1','2','3','4','5','6','7','8']
-// const variables = {};
-// for(let i = 0; i < row.length; i++) {
-//     for(let j = 0; j < column.length; j++) {
-//         let letNum = row[i] + column[j];
-//         variables[letNum] = new tileInfo(row[i] + column[j],false);//Constructor to class*****************
-//         variables[letNum].changeColor();
-//         // if (row[i] + column[j] == 'D4'){
-//         //     Information.click();
-//         // }
-//     }
-// }    
-
-
-// //         Changing the footers see who's turn is it
-
-// playersTurn.innerHTML = 'Black' 
-
-
-// // if (turn == 'black'){
-// //    } else {
-// //     playersTurn.innerHTML = 'White'
-// // }
