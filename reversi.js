@@ -95,21 +95,20 @@ class gameSystem extends tile{  //=====================================
                             this.boxItems[`${letNum}`].cngColor("black");    //changes the background to black
                             this.boxItems[`${letNum}`].addPiece();               //changes it the tile to True
                             this.chngTurn();                                //updates the color to white->black of vice versa                        
-                            //this.tile = true;
-                            //this.plyrTurn(turn);
-                            //this.cngAddBlkScore();
+                            this.altrpoints();
                         } else {
                             this.boxItems[`${letNum}`].cngColor("white")    //changes the background to black
                             this.boxItems[`${letNum}`].addPiece()               //changes it the tile to T
                             this.chngTurn(); 
-                            
+                            this.altrpoints(); 
                         }          
                     } else {
                         alert("Tile is already contains a peice")
                     }
                 })
             }
-        }        
+        }
+               
     }
     chngTurn() {
         if(this.trnColor == 'black'){
