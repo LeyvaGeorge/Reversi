@@ -102,7 +102,7 @@ class gameSystem extends tile{  //=====================================
                             this.boxItems[`${letNum}`].cngColor("white")    //changes the background to black
                             this.boxItems[`${letNum}`].addPiece()           //changes it the tile to T
                             this.chngTurn();                                //updates the color to white->black of vice versa
-                           this.getPieces(letNum,'white');
+                            this.getPieces(letNum,'white');
                             this.altrpoints();                              //updates the score
                         }          
                     } else {
@@ -123,8 +123,10 @@ class gameSystem extends tile{  //=====================================
         }
     }
     //=====================================================================
+
+    //GET PIECES IS WORKING FINE
     getPieces(point,color){ //point is the players
-        console.log(point);
+        console.log('clicked at :' + point);                        //points to the name of the square in question
         
         let letter = point.charAt(0);             //gets letter from point
         let number = point.charAt(1);
@@ -134,51 +136,69 @@ class gameSystem extends tile{  //=====================================
         let numberValue;
         for(let i = 0; i < rowL.length; i++)
             if(letter == rowL[i])
-                letterValue = i;
+                letterValue = i;                   //Converts to 0->7
         for(let j = 0; j < columnN.length; j++)
             if(number == columnN[j])
                 numberValue = j
-        console.log(`letter:${letterValue}  Number: ${numberValue}`)
-        this.isValidMove(letterValue,numberValue,color,point)
-        //find pieces around
         
-        
-        //continue to search
-
-
-
-        
+        this.isValidMove(letterValue,numberValue,color)       //Passes the letter and number 
     }
 
-    isValidMove(row,col,player,point){
+    //Find issue
+    isValidMove(row,col,player){
         let oponentColor = (player == 'white') ? 'black' : 'white';
-        let directions =[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0][1,1]]
-        for(let i =0; i < directions.length; i++){
-            let r = row + directions[i][0];     //gets the row value +/- 1 and at
-            let c = col + directions[i][1];     //gets the column value +/- 1 and at
+        let directions =[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]
+        
+        
+        //Cycles to look around the clicked tile to find any valid apponents to flip
+        for(let i =0; i < directions.length; i++){  
+            let r = row + directions[i][0];     //gets the row value +/@/- 1 
+            let c = col + directions[i][1];     //gets the column value +/- 1 and @
             let xy = rowL[r] + columnN[c];      //converts it back to row and column values IE'A1,etc.'
-            let flips=0;
-            while(r >= 0 && r < 8 && c >=0 && c < 8 && this.boxItems[`${xy}`].color == oponentColor){
-                r += directions[i][0];
-                c += directions[i][1];
-                if(this.isValidMove() == true){
-
-                }
+            //let flips=0;                      /GPT CODE not sure why it's needed
+            
+            //A way to stay inside the array
+            if(r >= 0 && r < 8 && c >=0 && c < 8){
                 
-
+                if (this.boxItems[`${xy}`].color == oponentColor){ //Enemy is located
+                    console.log(`${xy} has: ${this.boxItems[`${xy}`].color}  color`)        //Testing to find only opponents 88888888888888888888888888888
+                        //row,collumn,playerColor,opponentColor,direction looking at
+                    // let valid = this.rabbitHole(r,c,player,oponentColor,directions[i])//pass function to keep looking deeper in that direction
+                    // if (valid == true){//if True flip enemy tile
+                    //     this.boxItems[`${xy}`].color = player;
+                    // }
+                } else {}//nothig was done
             }
-            if(r >= 0 && r < 8 && c >=0 && c < 8 && this.boxItems[`${xy}`].color == player)
-            return true;
         }
-        return//nothig was done
+        // return
     }
-    
+    rabbitHole(row,collumn,playerColor,opponentColor,direction/* TODO PASS DIRECTION TO KEEP GOING DOWN THE RABBIT HOLE */){   
+        //moves the view  further into the direction
+        row += direction[0];        
+        collumn += direction[1];
+        let xy = rowL[row] + columnN[collumn]
+
+        while(row >= 0 && row < 8 && collumn >=0 && collumn < 8){                   //stops form going out of bounds
+            if( this.boxItems[`${xy}`].color == playerColor/*friendly found */){    //Found a friendly tile
+                return true
+            } else if(this.boxItems[`${xy}`].color == opponentColor){               //opponent must look deeper into the view direction
+                let valid = this.rabbitHole(row,collumn,playerColor,opponentColor,direction)
+                if(valid == true) {
+                    this.boxItems[`${xy}`].color = playerColor;
+                    return true;    //keep the cycle true till out of loop
+                } else {
+                    return false;   //do nothing either out of bounds or tile had nothing
+                }
+            }
+        }
+        return false;
+    }
     //Function(){
     //}   
 }
 
-let GAME = new gameSystem("black");
-GAME.strtGame();
+let GAME = new gameSystem("black"); //GAME IS SET
+GAME.strtGame();                    //START GAME    
 
 // for(let i = 0; i < rowL.length; i++) {
 //     for(let j = 0; j < columnN.length; j++) {
