@@ -162,11 +162,12 @@ class gameSystem extends tile{  //=====================================
                 
                 if (this.boxItems[`${xy}`].color == oponentColor){ //Enemy is located
                     console.log(`${xy} has: ${this.boxItems[`${xy}`].color}  color`)        //Testing to find only opponents 88888888888888888888888888888
-                        //row,collumn,playerColor,opponentColor,direction looking at
-                    // let valid = this.rabbitHole(r,c,player,oponentColor,directions[i])//pass function to keep looking deeper in that direction
-                    // if (valid == true){//if True flip enemy tile
-                    //     this.boxItems[`${xy}`].color = player;
-                    // }
+                    
+                    //row,collumn,playerColor,opponentColor,direction looking at
+                    let valid = this.rabbitHole(r,c,player,oponentColor,directions[i])//pass function to keep looking deeper in that direction
+                    if (valid == true){//if True flip enemy tile
+                        this.boxItems[`${xy}`].cngColor(player);
+                    }
                 } else {}//nothig was done
             }
         }
@@ -177,14 +178,14 @@ class gameSystem extends tile{  //=====================================
         row += direction[0];        
         collumn += direction[1];
         let xy = rowL[row] + columnN[collumn]
-
-        while(row >= 0 && row < 8 && collumn >=0 && collumn < 8){                   //stops form going out of bounds
+        console.log(xy)
+        if(row >= 0 && row < 8 && collumn >=0 && collumn < 8){                   //stops form going out of bounds
             if( this.boxItems[`${xy}`].color == playerColor/*friendly found */){    //Found a friendly tile
                 return true
             } else if(this.boxItems[`${xy}`].color == opponentColor){               //opponent must look deeper into the view direction
                 let valid = this.rabbitHole(row,collumn,playerColor,opponentColor,direction)
                 if(valid == true) {
-                    this.boxItems[`${xy}`].color = playerColor;
+                    this.boxItems[`${xy}`].cngColor(playerColor);
                     return true;    //keep the cycle true till out of loop
                 } else {
                     return false;   //do nothing either out of bounds or tile had nothing
