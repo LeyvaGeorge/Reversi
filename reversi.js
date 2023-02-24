@@ -1,5 +1,6 @@
 const rowL = ['A','B','C','D','E','F','G','H'];
 const columnN = ['1','2','3','4','5','6','7','8'];
+const iconLink = document.getElementById('favicon');
 let blackScore = document.getElementById('blkScore');
 let whiteScore = document.getElementById('whtScore');
 let playersTurn = document.getElementById('player');
@@ -38,7 +39,7 @@ class gameSystem extends tile{  //=====================================
         this.scoreBlk = 0;
         this.scoreWht = 0;
         this.listen();
-        if(this.trnColor == 'black')
+        if(this.trnColor == 'black')    //Check to see who starts the game
             playersTurn.innerHTML = `Black Starts`
         else {
             playersTurn.innerHTML = 'White Starts'
@@ -98,16 +99,17 @@ class gameSystem extends tile{  //=====================================
                         if(this.trnColor == 'black'){
                             this.boxItems[`${letNum}`].cngColor("black");   //changes the background to black
                             this.boxItems[`${letNum}`].addPiece();          //changes it the tile to True
-                            
                             this.chngTurn();                                //updates the color to white->black of vice versa                        
                             this.getPieces(letNum,'black');
                             this.altrpoints();                              //Updates the score
+                            iconLink.setAttribute("href","/Assets/whiteIcon.ico");
                         } else {
-                            this.boxItems[`${letNum}`].cngColor("white")    //changes the background to black
+                            this.boxItems[`${letNum}`].cngColor("white")    //changes the background to White
                             this.boxItems[`${letNum}`].addPiece()           //changes it the tile to T
                             this.chngTurn();                                //updates the color to white->black of vice versa
                             this.getPieces(letNum,'white');
                             this.altrpoints();                              //updates the score
+                            iconLink.setAttribute("href","/Assets/blackIcon.ico");
                         }          
                     } else {
                         alert("Tile is already contains a peice")
