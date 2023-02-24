@@ -37,7 +37,9 @@ main {
     grid-template-columns: auto auto auto auto auto auto auto auto;
 }
 
-
+p {
+    display: none;
+}
 
 .board > div {
     /* Centers the text to the center */
