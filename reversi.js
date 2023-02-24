@@ -38,7 +38,11 @@ class gameSystem extends tile{  //=====================================
         this.scoreBlk = 0;
         this.scoreWht = 0;
         this.listen();
-        playersTurn.innerHTML = `${this.addPiece.trnColor}'s Color`
+        if(this.trnColor == 'black')
+            playersTurn.innerHTML = `Black Starts`
+        else {
+            playersTurn.innerHTML = 'White Starts'
+        }
     }
 
     fillArray() {

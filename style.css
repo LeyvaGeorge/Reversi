@@ -1,5 +1,7 @@
 body {
     background-color: #FFEBDC;
+    font-family: 'Cinzel Decorative', cursive;
+    font-family: 'Sriracha', cursive;
 }
 /* ===== Header ===== */
 header {
@@ -11,18 +13,23 @@ header {
     top:0;
     width: 100%;
 }
+h1 {
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    
+}
+h2{
+    font-size: 3rem;
+}
 h3 {
+    font-size: 2rem;
     padding-right: 20px;
     margin-top: 10px;
     margin-bottom: 0;
 }
 /*  ======= main ======= */
-h1 {
-    display: flex;
-    justify-content: center;
-    font-family: 'Cinzel Decorative', cursive;
-    font-family: 'Sriracha', cursive;
-}
+
 main {
     display: flex;
     justify-content: center;
@@ -52,13 +59,61 @@ p {
     
 } 
 /* === Footer === */
+
 footer {
     display: flex;
     justify-content: center;
 }
 /* 
-checker color
+checker colors to use
 #80756E
 #CCBCAF
 #806047
 */
+
+/* Media for Tablets */
+@media only screen and (max-width: 600px){
+    header {
+        display:flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        flex-direction:row;
+        position: relative;
+        top:0;
+        width: 100%;
+    }
+    .board > div {
+        height: 40px;
+    }
+
+    .board {
+        width: 328px; /* needed for border line */
+        border: 6px solid #422e1a;
+    }
+}
+
+@media only screen and (max-height: 600px) and (orientation: landscape){
+    header {
+        width: 25%;
+        right: 0;
+    }
+    h1{
+        position: absolute;
+        top: 25%;
+        left:2.5%;
+        transform: rotate(300deg);
+    }
+    .board > div {
+        height: 40px;        
+    }
+    .board {
+        width: 328px; /* needed for border line */
+        border: 6px solid #422e1a;
+    }
+    #player {
+        position: absolute;
+        top: 40%;
+        right: 0;
+        transform: rotate(60deg);
+    }
+}
