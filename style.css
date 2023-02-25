@@ -55,8 +55,16 @@ p {
     align-items: center;
     
     height: 100px;
+    width: 100px;
     border: 1px solid black;
     
+}
+.board > div > div {
+    border-radius: 100%;
+    background: #539955;
+    padding: 0;
+    height: 80%;
+    width: 80%;
 } 
 /* === Footer === */
 
@@ -84,36 +92,13 @@ checker colors to use
     }
     .board > div {
         height: 40px;
+        width: 40px;
+        border: 1px solid black;
     }
 
     .board {
-        width: 328px; /* needed for border line */
+        width: 338px; /* needed for border line */
         border: 6px solid #422e1a;
     }
 }
 
-@media only screen and (max-height: 600px) and (orientation: landscape){
-    header {
-        width: 25%;
-        right: 0;
-    }
-    h1{
-        position: absolute;
-        top: 25%;
-        left:2.5%;
-        transform: rotate(300deg);
-    }
-    .board > div {
-        height: 40px;        
-    }
-    .board {
-        width: 328px; /* needed for border line */
-        border: 6px solid #422e1a;
-    }
-    #player {
-        position: absolute;
-        top: 40%;
-        right: 0;
-        transform: rotate(60deg);
-    }
-}
