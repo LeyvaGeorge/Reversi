@@ -44,6 +44,7 @@ class gameSystem extends tile{  //=====================================
         else {
             playersTurn.innerHTML = 'White Starts'
         }
+        
     }
 
     fillArray() {
@@ -84,6 +85,8 @@ class gameSystem extends tile{  //=====================================
         }
         blackScore.innerHTML =`Black: ${black}`
         whiteScore.innerHTML = `White: ${white}`
+
+       
     }
 
     //Adds EventListener to the array
@@ -102,6 +105,7 @@ class gameSystem extends tile{  //=====================================
                             this.chngTurn();                                //updates the color to white->black of vice versa                        
                             this.getPieces(letNum,'black');
                             this.altrpoints();                              //Updates the score
+                            this.hasWon()
                             iconLink.setAttribute("href","/Assets/whiteIcon.ico");
                         } else {
                             this.boxItems[`${letNum}`].cngColor("white")    //changes the background to White
@@ -109,6 +113,7 @@ class gameSystem extends tile{  //=====================================
                             this.chngTurn();                                //updates the color to white->black of vice versa
                             this.getPieces(letNum,'white');
                             this.altrpoints();                              //updates the score
+                            this.hasWon()
                             iconLink.setAttribute("href","/Assets/blackIcon.ico");
                         }          
                     } else {
@@ -130,7 +135,7 @@ class gameSystem extends tile{  //=====================================
     }
     //=====================================================================
 
-    //GET PIECES IS WORKING FINE
+    //GET PIECES converts the array to 00 instead of A1
     getPieces(point,color){ //point is the players
         console.log('clicked at :' + point);                        //points to the name of the square in question
         
@@ -150,7 +155,7 @@ class gameSystem extends tile{  //=====================================
         this.isValidMove(letterValue,numberValue,color)       //Passes the letter and number 
     }
 
-    //Find issue
+    //Finds if enemy is nearby
     isValidMove(row,col,player){
         let oponentColor = (player == 'white') ? 'black' : 'white';
         let directions =[[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]
@@ -167,7 +172,6 @@ class gameSystem extends tile{  //=====================================
             if(r >= 0 && r < 8 && c >=0 && c < 8){
                 
                 if (this.boxItems[`${xy}`].color == oponentColor){ //Enemy is located
-                    console.log(`${xy} has: ${this.boxItems[`${xy}`].color}  color`)        //Testing to find only opponents 88888888888888888888888888888
                     
                     //row,collumn,playerColor,opponentColor,direction looking at
                     let valid = this.rabbitHole(r,c,player,oponentColor,directions[i])//pass function to keep looking deeper in that direction
@@ -179,12 +183,13 @@ class gameSystem extends tile{  //=====================================
         }
         // return
     }
-    rabbitHole(row,collumn,playerColor,opponentColor,direction/* TODO PASS DIRECTION TO KEEP GOING DOWN THE RABBIT HOLE */){   
+    //continues to look for enemies till a friendly or empty is found
+    rabbitHole(row,collumn,playerColor,opponentColor,direction){   
         //moves the view  further into the direction
         row += direction[0];        
         collumn += direction[1];
         let xy = rowL[row] + columnN[collumn]
-        console.log(xy)
+        
         if(row >= 0 && row < 8 && collumn >=0 && collumn < 8){                   //stops form going out of bounds
             if( this.boxItems[`${xy}`].color == playerColor/*friendly found */){    //Found a friendly tile
                 return true
@@ -199,6 +204,33 @@ class gameSystem extends tile{  //=====================================
             }
         }
         return false;
+    }
+    hasWon(){
+        let white = 0;
+        let black = 0;
+        
+        for(let i = 0; i < rowL.length; i++) {
+            for(let j = 0; j < columnN.length; j++) {
+                let letNum = rowL[i] + columnN[j];
+                if(this.boxItems[letNum].color == "black"){
+                    black++;  
+                }else if(this.boxItems[letNum].color == "white"){
+                    white++;
+                }else{}
+            } 
+        }
+        let result = white + black;
+        if (result == 64){
+            if (black > white){
+                console.log("Black Won")
+            }
+            else if(black < white){
+                console.log("White Won")
+            }
+            else{
+                console.log("TIE")
+            }
+        }
     }
     //Function(){
     //}   

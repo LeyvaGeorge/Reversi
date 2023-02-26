@@ -37,7 +37,7 @@ main {
     flex-direction: column;
 }
 .board {
-    width: 808px; /* needed for border line */
+    width: 810px; /* needed for border line */
     background-color: #539955;
     border: 12px solid #422e1a;
     display: grid;
@@ -72,12 +72,7 @@ footer {
     display: flex;
     justify-content: center;
 }
-/* 
-checker colors to use
-#80756E
-#CCBCAF
-#806047
-*/
+
 
 /* Media for Tablets */
 @media only screen and (max-width: 600px){
